@@ -1,4 +1,4 @@
-import { Github, GithubIcon } from "lucide-react";
+import { Github } from "lucide-react";
 import "./App.css";
 import { KanbanBoard } from "./components/KanbanBoard";
 import { ThemeToggle } from "./components/ThemeToggle";
