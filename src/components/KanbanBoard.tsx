@@ -12,9 +12,7 @@ import {
   useSensor,
   useSensors,
   KeyboardSensor,
-  DragCancelEvent,
   Announcements,
-  Active,
   UniqueIdentifier,
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
@@ -373,7 +371,7 @@ export function KanbanBoard() {
         const activeIndex = tasks.findIndex((t) => t.id === activeId);
         const activeTask = tasks[activeIndex];
         if (activeTask) {
-          activeTask.columnId = overId;
+          activeTask.columnId = overId as ColumnId;
           return arrayMove(tasks, activeIndex, activeIndex);
         }
         return tasks;
