@@ -23,9 +23,10 @@ export interface ColumnDragData {
 interface BoardColumnProps {
   column: Column;
   tasks: Task[];
+  isOverlay?: boolean;
 }
 
-export function BoardColumn({ column, tasks }: BoardColumnProps) {
+export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
   const tasksIds = useMemo(() => {
     return tasks.map((task) => task.id);
   }, [tasks]);
@@ -59,7 +60,8 @@ export function BoardColumn({ column, tasks }: BoardColumnProps) {
       variants: {
         dragging: {
           default: "border-2 border-transparent",
-          over: "opacity-50 border-2 ring-2 ring-offset-2",
+          over: "ring-2 opacity-50",
+          overlay: "ring-2 ring-primary",
         },
       },
     }
@@ -69,7 +71,9 @@ export function BoardColumn({ column, tasks }: BoardColumnProps) {
     <Card
       ref={setNodeRef}
       style={style}
-      className={variants({ dragging: isDragging ? "over" : "default" })}
+      className={variants({
+        dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
+      })}
     >
       <CardHeader className="p-4 font-semibold border-b-2 text-left flex flex-row space-between items-center">
         <Button

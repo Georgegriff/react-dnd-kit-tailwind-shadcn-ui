@@ -37,7 +37,7 @@ function App() {
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
               Drag and Drop Kanban Board
             </h1>
-            <div className="basis-[100%] flex-1 flex items-center mt-6">
+            <div className="flex-1 flex items-center mt-6">
               <KanbanBoard />
             </div>
             <p className="leading-7 [&:not(:first-child)]:mt-6">

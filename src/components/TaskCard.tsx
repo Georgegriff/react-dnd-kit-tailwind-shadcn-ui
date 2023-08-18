@@ -16,6 +16,7 @@ export interface Task {
 
 interface TaskCardProps {
   task: Task;
+  isOverlay?: boolean;
 }
 
 export type TaskType = "Task";
@@ -25,7 +26,7 @@ export interface TaskDragData {
   task: Task;
 }
 
-export function TaskCard({ task }: TaskCardProps) {
+export function TaskCard({ task, isOverlay }: TaskCardProps) {
   const {
     setNodeRef,
     attributes,
@@ -52,7 +53,8 @@ export function TaskCard({ task }: TaskCardProps) {
   const variants = cva("", {
     variants: {
       dragging: {
-        over: "opacity-50 ring-2 ring-offset-4",
+        over: "ring-2 opacity-50",
+        overlay: "ring-2 ring-primary",
       },
     },
   });
@@ -63,7 +65,9 @@ export function TaskCard({ task }: TaskCardProps) {
       style={style}
       {...attributes}
       {...listeners}
-      className={variants({ dragging: isDragging ? "over" : undefined })}
+      className={variants({
+        dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
+      })}
     >
       <CardHeader className="px-3 py-3 space-between flex flex-row border-b-2 border-secondary">
         <Button

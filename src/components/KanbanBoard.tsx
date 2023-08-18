@@ -268,13 +268,14 @@ export function KanbanBoard() {
             <DragOverlay>
               {activeColumn && (
                 <BoardColumn
+                  isOverlay
                   column={activeColumn}
                   tasks={tasks.filter(
                     (task) => task.columnId === activeColumn.id
                   )}
                 />
               )}
-              {activeTask && <TaskCard task={activeTask} />}
+              {activeTask && <TaskCard task={activeTask} isOverlay />}
             </DragOverlay>,
             document.body
           )}
