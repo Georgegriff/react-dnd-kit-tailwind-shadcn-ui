@@ -33,13 +33,11 @@ function App() {
             </Button>
             <ThemeToggle />
           </header>
-          <main className="mx-4">
+          <main className="mx-4 flex flex-col gap-6">
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
               Drag and Drop Kanban Board
             </h1>
-            <div className="flex-1 flex items-center mt-6">
-              <KanbanBoard />
-            </div>
+            <KanbanBoard />
             <p className="leading-7 [&:not(:first-child)]:mt-6">
               With Keyboard Controls and Screen Reader interactions.
             </p>

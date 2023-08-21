@@ -55,7 +55,7 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
   };
 
   const variants = cva(
-    "h-[500px] max-h-[500px] w-[350px] bg-secondary flex flex-col",
+    "md:h-[500px] max-h-[500px] w-[100vw] md:w-[350px] max-w-full bg-secondary flex flex-col snap-center flex-shrink-0",
     {
       variants: {
         dragging: {
@@ -75,7 +75,7 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
         dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
       })}
     >
-      <CardHeader className="p-4 font-semibold border-b-2 text-left flex flex-row space-between items-center">
+      <CardHeader className="p-4 font-semibold border-b-2 text-left flex flex-row space-between items-center overscroll-y-none">
         <Button
           variant={"ghost"}
           {...attributes}
@@ -87,7 +87,7 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
         </Button>
         <span className="ml-auto"> {column.title}</span>
       </CardHeader>
-      <CardContent className="flex flex-grow flex-col gap-4 p-2 overflow-y-auto overflow-x-hidden">
+      <CardContent className="flex flex-grow flex-col gap-4 p-2 overflow-y-auto overflow-x-hidden overscroll-y-none">
         <SortableContext items={tasksIds}>
           {tasks.map((task) => (
             <TaskCard key={task.id} task={task} />

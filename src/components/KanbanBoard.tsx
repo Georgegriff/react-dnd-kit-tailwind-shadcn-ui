@@ -14,7 +14,10 @@ import {
   KeyboardSensor,
   Announcements,
   UniqueIdentifier,
+  TouchSensor,
+  MouseSensor,
 } from "@dnd-kit/core";
+import { restrictToWindowEdges } from "@dnd-kit/modifiers";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { type Task, TaskCard } from "./TaskCard";
 import type { Column } from "./BoardColumn";
@@ -117,7 +120,8 @@ export function KanbanBoard() {
   const [activeTask, setActiveTask] = useState<Task | null>(null);
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(MouseSensor),
+    useSensor(TouchSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: coordinateGetter,
     })
@@ -230,57 +234,46 @@ export function KanbanBoard() {
   };
 
   return (
-    <div
-      className="
-        m-auto
-        flex
-        w-full
-        items-center
-        overflow-x-auto
-        overflow-y-hidden
-    "
+    <DndContext
+      accessibility={{
+        announcements,
+      }}
+      sensors={sensors}
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
+      onDragOver={onDragOver}
     >
-      <DndContext
-        accessibility={{
-          announcements,
-        }}
-        sensors={sensors}
-        onDragStart={onDragStart}
-        onDragEnd={onDragEnd}
-        onDragOver={onDragOver}
-      >
-        <div className="m-auto flex gap-4 p-2">
-          <div className="flex gap-4">
-            <SortableContext items={columnsId}>
-              {columns.map((col) => (
-                <BoardColumn
-                  key={col.id}
-                  column={col}
-                  tasks={tasks.filter((task) => task.columnId === col.id)}
-                />
-              ))}
-            </SortableContext>
-          </div>
+      <div className="overflow-hidden overscroll-y-none px-2 md:px-0">
+        <div className="flex gap-4 flex-wrap items-center flex-row justify-center">
+          <SortableContext items={columnsId}>
+            {columns.map((col) => (
+              <BoardColumn
+                key={col.id}
+                column={col}
+                tasks={tasks.filter((task) => task.columnId === col.id)}
+              />
+            ))}
+          </SortableContext>
         </div>
+      </div>
 
-        {"document" in window &&
-          createPortal(
-            <DragOverlay>
-              {activeColumn && (
-                <BoardColumn
-                  isOverlay
-                  column={activeColumn}
-                  tasks={tasks.filter(
-                    (task) => task.columnId === activeColumn.id
-                  )}
-                />
-              )}
-              {activeTask && <TaskCard task={activeTask} isOverlay />}
-            </DragOverlay>,
-            document.body
-          )}
-      </DndContext>
-    </div>
+      {"document" in window &&
+        createPortal(
+          <DragOverlay modifiers={[restrictToWindowEdges]}>
+            {activeColumn && (
+              <BoardColumn
+                isOverlay
+                column={activeColumn}
+                tasks={tasks.filter(
+                  (task) => task.columnId === activeColumn.id
+                )}
+              />
+            )}
+            {activeTask && <TaskCard task={activeTask} isOverlay />}
+          </DragOverlay>,
+          document.body
+        )}
+    </DndContext>
   );
 
   function onDragStart(event: DragStartEvent) {
