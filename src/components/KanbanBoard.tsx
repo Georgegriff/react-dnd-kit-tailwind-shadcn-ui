@@ -8,7 +8,6 @@ import {
   type DragOverEvent,
   DragOverlay,
   type DragStartEvent,
-  PointerSensor,
   useSensor,
   useSensors,
   KeyboardSensor,
