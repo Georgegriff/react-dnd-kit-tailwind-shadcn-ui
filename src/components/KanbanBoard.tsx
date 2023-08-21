@@ -16,7 +16,6 @@ import {
   TouchSensor,
   MouseSensor,
 } from "@dnd-kit/core";
-import { restrictToWindowEdges } from "@dnd-kit/modifiers";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { type Task, TaskCard } from "./TaskCard";
 import type { Column } from "./BoardColumn";
@@ -258,7 +257,7 @@ export function KanbanBoard() {
 
       {"document" in window &&
         createPortal(
-          <DragOverlay modifiers={[restrictToWindowEdges]}>
+          <DragOverlay>
             {activeColumn && (
               <BoardColumn
                 isOverlay
