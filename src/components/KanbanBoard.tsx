@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-import { BoardColumn } from "./BoardColumn";
+import { BoardColumn, BoardContainer } from "./BoardColumn";
 import {
   DndContext,
   type DragEndEvent,
@@ -241,19 +241,17 @@ export function KanbanBoard() {
       onDragEnd={onDragEnd}
       onDragOver={onDragOver}
     >
-      <div className="overflow-hidden overscroll-y-none px-2 md:px-0">
-        <div className="flex gap-4 flex-wrap items-center flex-row justify-center">
-          <SortableContext items={columnsId}>
-            {columns.map((col) => (
-              <BoardColumn
-                key={col.id}
-                column={col}
-                tasks={tasks.filter((task) => task.columnId === col.id)}
-              />
-            ))}
-          </SortableContext>
-        </div>
-      </div>
+      <BoardContainer>
+        <SortableContext items={columnsId}>
+          {columns.map((col) => (
+            <BoardColumn
+              key={col.id}
+              column={col}
+              tasks={tasks.filter((task) => task.columnId === col.id)}
+            />
+          ))}
+        </SortableContext>
+      </BoardContainer>
 
       {"document" in window &&
         createPortal(
