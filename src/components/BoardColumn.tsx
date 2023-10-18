@@ -101,7 +101,7 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
 export function BoardContainer({ children }: { children: React.ReactNode }) {
   const dndContext = useDndContext();
 
-  const variations = cva("overflow-x-auto px-2 md:px-0 flex justify-center", {
+  const variations = cva("overflow-x-auto px-2 md:px-0 flex", {
     variants: {
       dragging: {
         default: "snap-x snap-mandatory",
