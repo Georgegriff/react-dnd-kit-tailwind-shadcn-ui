@@ -7,6 +7,7 @@ import { cva } from "class-variance-authority";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { Button } from "./ui/button";
 import { GripVertical } from "lucide-react";
+import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 
 export interface Column {
   id: UniqueIdentifier;
@@ -55,7 +56,7 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
   };
 
   const variants = cva(
-    "h-[500px] max-h-[500px] w-[350px] max-w-full bg-secondary flex flex-col flex-shrink-0 snap-center",
+    "h-[500px] max-h-[500px] w-[350px] max-w-full bg-primary-foreground flex flex-col flex-shrink-0 snap-center",
     {
       variants: {
         dragging: {
@@ -87,13 +88,15 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
         </Button>
         <span className="ml-auto"> {column.title}</span>
       </CardHeader>
-      <CardContent className="flex flex-grow flex-col gap-4 p-2 overflow-y-auto overflow-x-hidden">
-        <SortableContext items={tasksIds}>
-          {tasks.map((task) => (
-            <TaskCard key={task.id} task={task} />
-          ))}
-        </SortableContext>
-      </CardContent>
+      <ScrollArea>
+        <CardContent className="flex flex-grow flex-col gap-2 p-2">
+          <SortableContext items={tasksIds}>
+            {tasks.map((task) => (
+              <TaskCard key={task.id} task={task} />
+            ))}
+          </SortableContext>
+        </CardContent>
+      </ScrollArea>
     </Card>
   );
 }
@@ -101,7 +104,7 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
 export function BoardContainer({ children }: { children: React.ReactNode }) {
   const dndContext = useDndContext();
 
-  const variations = cva("overflow-x-auto px-2 md:px-0 flex lg:justify-center", {
+  const variations = cva("px-2 md:px-0 flex lg:justify-center pb-4", {
     variants: {
       dragging: {
         default: "snap-x snap-mandatory",
@@ -111,7 +114,7 @@ export function BoardContainer({ children }: { children: React.ReactNode }) {
   });
 
   return (
-    <div
+    <ScrollArea
       className={variations({
         dragging: dndContext.active ? "active" : "default",
       })}
@@ -119,6 +122,7 @@ export function BoardContainer({ children }: { children: React.ReactNode }) {
       <div className="flex gap-4 items-center flex-row justify-center">
         {children}
       </div>
-    </div>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   );
 }
