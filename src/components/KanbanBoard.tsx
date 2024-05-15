@@ -1,26 +1,26 @@
 import { useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
+import { BoardColumn, BoardContainer } from "./BoardColumn";
 import {
-  Announcements,
   DndContext,
-  DragOverlay,
-  KeyboardSensor,
-  MouseSensor,
-  TouchSensor,
-  UniqueIdentifier,
-  useSensor,
-  useSensors,
   type DragEndEvent,
   type DragOverEvent,
+  DragOverlay,
   type DragStartEvent,
-} from "@dnd-kit/core"
-import { SortableContext, arrayMove } from "@dnd-kit/sortable"
+  useSensor,
+  useSensors,
+  KeyboardSensor,
+  Announcements,
+  UniqueIdentifier,
+  TouchSensor,
+  MouseSensor,
+} from "@dnd-kit/core";
+import { SortableContext, arrayMove } from "@dnd-kit/sortable";
+import { type Task, TaskCard } from "./TaskCard";
 import type { Column } from "./BoardColumn";
-import { BoardColumn, BoardContainer } from "./BoardColumn"
-import { TaskCard, type Task } from "./TaskCard"
+import { hasDraggableData } from "./utils";
 import { coordinateGetter } from "./multipleContainersKeyboardPreset";
-import { hasDraggableData } from "./utils"
 
 const defaultCols = [
   {
@@ -329,7 +329,7 @@ export function KanbanBoard() {
     const overData = over.data.current;
 
     const isActiveATask = activeData?.type === "Task";
-    const isOverATask = overData?.type === "Task"
+    const isOverATask = overData?.type === "Task";
 
     if (!isActiveATask) return;
 
