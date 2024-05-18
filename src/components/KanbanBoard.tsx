@@ -329,7 +329,7 @@ export function KanbanBoard() {
     const overData = over.data.current;
 
     const isActiveATask = activeData?.type === "Task";
-    const isOverATask = activeData?.type === "Task";
+    const isOverATask = overData?.type === "Task";
 
     if (!isActiveATask) return;
 
